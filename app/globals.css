@@ -51,4 +51,17 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* iOS momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Remove tap highlight on mobile interactive elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure sections are promoted to GPU compositing layers for smooth scroll */
+section {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }

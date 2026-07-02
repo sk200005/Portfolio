@@ -63,6 +63,7 @@ export function NewsSection() {
     <section
       id="news"
       className="relative flex min-h-screen w-full max-w-full items-center overflow-hidden overflow-x-clip bg-[#0a0a0a] px-5 py-16 sm:py-20 sm:pl-14 sm:pr-10 lg:pl-28 lg:pr-16 xl:pl-36 2xl:pl-44"
+      style={{ transform: 'translateZ(0)', willChange: 'transform' }}
     >
 
       <motion.div

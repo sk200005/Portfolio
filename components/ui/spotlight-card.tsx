@@ -59,7 +59,6 @@ const glowStyles = `
     inset: -26px;
     border-radius: calc(var(--radius) * 1px);
     z-index: 0;
-    background-attachment: fixed;
     background-image: radial-gradient(
       calc(var(--spotlight-size) * 1.1) calc(var(--spotlight-size) * 1.1) at
       calc(var(--x, 0) * 1px)
@@ -100,7 +99,6 @@ const glowStyles = `
     inset: 0;
     border-radius: calc(var(--radius) * 1px);
     z-index: 1;
-    background-attachment: fixed;
     background-image: radial-gradient(
       var(--spotlight-size) var(--spotlight-size) at
       calc(var(--x, 0) * 1px)
@@ -165,7 +163,6 @@ export function GlowCard({
     '--bg-spot-opacity': '0.045',
     '--border-spot-opacity': '0.72',
     '--border-light-opacity': '0.5',
-    backgroundAttachment: 'fixed',
     backgroundColor: 'var(--backdrop, transparent)',
     backgroundImage: `radial-gradient(
       var(--spotlight-size) var(--spotlight-size) at
@@ -178,6 +175,8 @@ export function GlowCard({
     border: 'var(--border-size) solid hsl(0 0% 22% / 0.85)',
     // Allow vertical scroll on mobile — never block touch gestures
     touchAction: 'pan-y',
+    // willChange helps browser composite this layer on GPU
+    willChange: 'background-position',
   };
 
   if (width !== undefined) {
