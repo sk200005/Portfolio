@@ -125,6 +125,15 @@ export function GlowCard({
   const { base, spread } = glowColorMap[glowColor];
 
   useEffect(() => {
+    // Skip the pointer-tracking effect entirely on touch-primary devices.
+    // On mobile, pointermove fires on every scroll touch which (a) is
+    // expensive and (b) was competing with native scroll gestures.
+    const isTouchPrimary =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    if (isTouchPrimary) return;
+
     const syncPointer = (event: PointerEvent) => {
       if (!cardRef.current) return;
 
@@ -135,7 +144,7 @@ export function GlowCard({
       cardRef.current.style.setProperty('--yp', (clientY / window.innerHeight).toFixed(2));
     };
 
-    document.addEventListener('pointermove', syncPointer);
+    document.addEventListener('pointermove', syncPointer, { passive: true });
     return () => document.removeEventListener('pointermove', syncPointer);
   }, []);
 
@@ -167,7 +176,8 @@ export function GlowCard({
     backgroundPosition: '50% 50%',
     backgroundSize: 'calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)))',
     border: 'var(--border-size) solid hsl(0 0% 22% / 0.85)',
-    touchAction: 'none',
+    // Allow vertical scroll on mobile — never block touch gestures
+    touchAction: 'pan-y',
   };
 
   if (width !== undefined) {
