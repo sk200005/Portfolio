@@ -93,7 +93,7 @@ export function NewsSection() {
                 <motion.div
                   key={name}
                   variants={itemVariants}
-                  className="flex min-h-16 items-center gap-4 rounded-lg border border-zinc-800 bg-zinc-900/70 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur"
+                  className="flex min-h-16 items-center gap-4 rounded-lg border border-zinc-800 bg-zinc-900/70 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-zinc-950 ring-1 ring-zinc-800">
                     <Icon className="h-7 w-7" style={{ color }} />
@@ -134,6 +134,9 @@ export function NewsSection() {
                     width: size,
                     height: size,
                     animation: `news-orbit-spin ${16 + orbitIdx * 8}s linear infinite`,
+                    // Promote each ring to its own GPU compositing layer
+                    willChange: 'transform',
+                    transform: 'translateZ(0)',
                   }}
                 >
                   {skills
@@ -153,7 +156,9 @@ export function NewsSection() {
                           style={{
                             left: `${x}%`,
                             top: `${y}%`,
-                            transform: 'translate(-50%, -50%)',
+                            // Counter-rotate so icons stay upright while ring spins
+                            animation: `news-orbit-spin-reverse ${16 + orbitIdx * 8}s linear infinite`,
+                            willChange: 'transform',
                           }}
                           title={name}
                         >
@@ -170,13 +175,12 @@ export function NewsSection() {
 
       <style>{`
         @keyframes news-orbit-spin {
-          from {
-            transform: rotate(0deg);
-          }
-
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: translateZ(0) rotate(0deg); }
+          to   { transform: translateZ(0) rotate(360deg); }
+        }
+        @keyframes news-orbit-spin-reverse {
+          from { transform: translate(-50%, -50%) translateZ(0) rotate(0deg); }
+          to   { transform: translate(-50%, -50%) translateZ(0) rotate(-360deg); }
         }
       `}</style>
     </section>
