@@ -25,7 +25,7 @@ const contactLinks = [
   },
   {
     label: 'Twitter',
-    href: 'https://x.com/Swayam1563/',
+    href: 'https://x.com/Swayam1563',
     Icon: FaTwitter,
   },
 ];
